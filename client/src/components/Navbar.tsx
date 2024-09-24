@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <div className="nav">
       <div className="nav-title">
-        <Link to="/"><h2>Krazy Kanban Board</h2></Link>
+        <Link to="/"><h3>Krazy Kanban Board</h3></Link>
       </div>
       <ul>
         {!loginCheck ? (
