@@ -8,6 +8,7 @@ const Login = () => {
     username: '',
     password: ''
   });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -23,6 +24,8 @@ const Login = () => {
       const data = await login(loginData);
       Auth.login(data.token);
     } catch (err) {
+      setErrorMessage('Credentials are incorrect');
+
       console.error('Failed to login', err);
     }
   };
@@ -45,6 +48,7 @@ const Login = () => {
           value={loginData.password || ''}
           onChange={handleChange}
         />
+        <p className="error">{errorMessage}</p>
         <button type='submit'>Submit Form</button>
       </form>
     </div>

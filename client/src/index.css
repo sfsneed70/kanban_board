@@ -56,7 +56,6 @@ button {
   font-family: inherit;
   background-color: lightgray;
   color: black;
-  /* background-color: #1a1a1a; */
   cursor: pointer;
   transition: border-color 0.25s;
   margin: 5px;
@@ -135,7 +134,6 @@ tbody tr:nth-child(odd) {
 
 .board {
   width: 100%;
-  /* background-color: rgb(60, 60, 60); */
 }
 
 .board-display {
@@ -153,15 +151,15 @@ tbody tr:nth-child(odd) {
 }
 
 .todo {
-  background-color: tan;
+  background-color: rgb(255, 216, 167);
 }
 
 .inprogress {
-  background-color: lightgray;
+  background-color: darkgray;
 }
 
 .done {
-  background-color: darkgray;
+  background-color: rgb(108, 87, 87);
 }
 
 .ticket-card {
@@ -186,11 +184,13 @@ tbody tr:nth-child(odd) {
   margin-left: auto;
 }
 
-
+.error {
+  color: red;
+}
 .form {
-  width: 60%;
-  height: 80%;
-  background-color: tan;
+  width: 50%;
+  height: 50%;
+  background-color: rgb(255, 216, 167);
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -255,7 +255,6 @@ tbody tr:nth-child(odd) {
   width: 100%;
   align-items: center;
   justify-content: center;
-  /* background-color: rgb(60, 60, 60); */
 }
 
 @media (prefers-color-scheme: light) {

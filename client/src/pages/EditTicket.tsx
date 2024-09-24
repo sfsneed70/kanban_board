@@ -9,7 +9,7 @@ const EditTicket = () => {
 
   const navigate = useNavigate();
   const { state } = useLocation();
-
+  
   const fetchTicket = async (ticketId: TicketData) => {
     try {
       const data = await retrieveTicket(ticketId.id);
@@ -79,7 +79,7 @@ const EditTicket = () => {
               <button type='submit'>Submit Form</button>
             </form>
           ) : (
-            <div>Issues fetching ticket</div>
+            <div className="error">Issues fetching ticket</div>
           )
         }
       </div>  
