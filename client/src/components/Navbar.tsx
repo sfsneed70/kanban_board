@@ -13,12 +13,14 @@ const Navbar = () => {
 
   useEffect(() => {
     checkLogin();
-  }, []);
+  }, [loginCheck]);
 
   return (
     <div className="nav">
       <div className="nav-title">
-        <Link to="/"><h3>Krazy Kanban Board</h3></Link>
+        <Link to="/">
+          <h3>Krazy Kanban Board</h3>
+        </Link>
       </div>
       <ul>
         {!loginCheck ? (
@@ -29,11 +31,11 @@ const Navbar = () => {
           </li>
         ) : (
           <>
-          <li className="nav-item">
-            <button type="button" id="create-ticket-link">
-              <Link to="/create">New Ticket</Link>
-            </button>
-          </li>
+            <li className="nav-item">
+              <button type="button" id="create-ticket-link">
+                <Link to="/create">New Ticket</Link>
+              </button>
+            </li>
             <li className="nav-item">
               <button
                 type="button"

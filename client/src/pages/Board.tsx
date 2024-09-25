@@ -21,9 +21,9 @@ const Board = () => {
     }
   };
 
-  if (!auth.loggedIn()) {
-    auth.logout();
-  }
+  // if (!auth.loggedIn()) {
+  //   auth.logout();
+  // }
   
   const fetchTickets = async () => {
     try {
