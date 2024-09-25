@@ -1,5 +1,4 @@
 import { JwtPayload, jwtDecode } from "jwt-decode";
-
 class AuthService {
   getProfile() {
     // TODO: return the decoded token
@@ -11,6 +10,12 @@ class AuthService {
   loggedIn() {
     // TODO: return a value that indicates if the user is logged in
     const token = this.getToken();
+
+    // if (!token || this.isTokenExpired(token)) {
+    //   return false;
+    // } else {
+    //   return true;
+    // }
 
     return !!token && !this.isTokenExpired(token);
   }
@@ -31,6 +36,7 @@ class AuthService {
   login(idToken: string) {
     // TODO: set the token to localStorage
     // TODO: redirect to the home page
+
     localStorage.setItem("id_token", idToken);
     window.location.assign("/");
   }
@@ -39,7 +45,7 @@ class AuthService {
     // TODO: remove the token from localStorage
     // TODO: redirect to the login page
     localStorage.removeItem("id_token");
-    window.location.assign("/");
+    window.location.assign("/login");
   }
 }
 

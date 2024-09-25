@@ -189,7 +189,7 @@ tbody tr:nth-child(odd) {
 }
 .form {
   width: 50%;
-  height: 50%;
+  height: 60%;
   background-color: rgb(255, 216, 167);
   margin: auto;
   display: flex;

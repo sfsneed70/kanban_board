@@ -4,6 +4,7 @@ import { createTicket } from '../api/ticketAPI';
 import { TicketData } from '../interfaces/TicketData';
 import { UserData } from '../interfaces/UserData';
 import { retrieveUsers } from '../api/userAPI';
+import auth from '../utils/auth';
 
 const CreateTicket = () => {
   const [newTicket, setNewTicket] = useState<TicketData | undefined>(
@@ -30,12 +31,21 @@ const CreateTicket = () => {
     }
   };
 
+  // make sure user is still logged in (i.e. token is still valid), otherwise logout
+  if (!auth.loggedIn()) {
+    auth.logout();
+  }
+
   useEffect(() => {
     getAllUsers();
   }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    // make sure user is still logged in (i.e. token is still valid), otherwise logout
+    if (!auth.loggedIn()) {
+      auth.logout();
+    }
     if (newTicket){
       const data = await createTicket(newTicket);
       console.log(data);

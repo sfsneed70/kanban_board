@@ -21,6 +21,10 @@ const Board = () => {
     }
   };
 
+  if (!auth.loggedIn()) {
+    auth.logout();
+  }
+  
   const fetchTickets = async () => {
     try {
       const data = await retrieveTickets();
@@ -32,6 +36,9 @@ const Board = () => {
   };
 
   const deleteIndvTicket = async (ticketId: number) : Promise<ApiMessage> => {
+    if (!auth.loggedIn()) {
+      auth.logout();
+    }
     try {
       const data = await deleteTicket(ticketId);
       fetchTickets();
