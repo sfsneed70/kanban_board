@@ -11,12 +11,6 @@ class AuthService {
     // TODO: return a value that indicates if the user is logged in
     const token = this.getToken();
 
-    // if (!token || this.isTokenExpired(token)) {
-    //   return false;
-    // } else {
-    //   return true;
-    // }
-
     return !!token && !this.isTokenExpired(token);
   }
 
@@ -45,7 +39,7 @@ class AuthService {
     // TODO: remove the token from localStorage
     // TODO: redirect to the login page
     localStorage.removeItem("id_token");
-    window.location.assign("/login");
+    window.location.assign("/");
   }
 }
 

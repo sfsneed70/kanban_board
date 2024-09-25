@@ -24,9 +24,8 @@ const Login = () => {
       const data = await login(loginData);
       auth.login(data.token);
     } catch (err) {
-      setErrorMessage('Credentials are incorrect');
-
-      console.error('Failed to login', err);
+      setErrorMessage('Credentials are incorrect.');
+      // console.error('Failed to login', err);
     }
   };
 

@@ -35,7 +35,10 @@ export function TicketFactory(sequelize: Sequelize): typeof Ticket {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+        // allowNull: false,
       },
       status: {
         type: DataTypes.STRING,
@@ -43,7 +46,10 @@ export function TicketFactory(sequelize: Sequelize): typeof Ticket {
       },
       description: {
         type: DataTypes.STRING,
-        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+        // allowNull: false,
       },
       assignedUserId: {
         type: DataTypes.INTEGER,

@@ -1,6 +1,5 @@
 import { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
 import { retrieveTicket, updateTicket } from "../api/ticketAPI";
 import { TicketData } from "../interfaces/TicketData";
 import auth from "../utils/auth";
@@ -20,31 +19,28 @@ const EditTicket = () => {
     }
   };
 
-  // make sure user is still logged in (i.e. token is still valid), otherwise logout
-  if (!auth.loggedIn()) {
-    // navigate('/');
-    // document.location.href = '/login';
-    // return <Navigate to='/login' />;
-    auth.logout();
-  }
-
   useEffect(() => {
-    fetchTicket(state);
+    // make sure user is still logged in (i.e. token is still valid)
+    if (auth.loggedIn()) {
+      fetchTicket(state);
+    } else {
+      navigate("/");
+    }
   }, []);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // make sure user is still logged in (i.e. token is still valid), otherwise logout
-    if (!auth.loggedIn()) {
-      auth.logout();
-    }
-
-    if (ticket && ticket.id !== null) {
-      updateTicket(ticket.id, ticket);
-      navigate("/");
+    // make sure user is still logged in (i.e. token is still valid)
+    if (auth.loggedIn()) {
+      if (ticket && ticket.id !== null) {
+        await updateTicket(ticket.id, ticket);
+        navigate("/");
+      } else {
+        console.error("Ticket data is undefined.");
+      }
     } else {
-      console.error("Ticket data is undefined.");
+      navigate("/");
     }
   };
 

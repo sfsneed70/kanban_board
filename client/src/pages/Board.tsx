@@ -1,59 +1,60 @@
-import { useEffect, useState, useLayoutEffect } from 'react';
+import { useEffect, useState, useLayoutEffect } from "react";
 
-import { retrieveTickets, deleteTicket } from '../api/ticketAPI';
-import ErrorPage from './ErrorPage';
-import Swimlane from '../components/Swimlane';
-import { TicketData } from '../interfaces/TicketData';
-import { ApiMessage } from '../interfaces/ApiMessage';
+import { retrieveTickets, deleteTicket } from "../api/ticketAPI";
+import ErrorPage from "./ErrorPage";
+import Swimlane from "../components/Swimlane";
+import { TicketData } from "../interfaces/TicketData";
+import { ApiMessage } from "../interfaces/ApiMessage";
+import { useNavigate } from "react-router-dom";
 
-import auth from '../utils/auth';
+import auth from "../utils/auth";
 
-const boardStates = ['Todo', 'In Progress', 'Done'];
+const boardStates = ["Todo", "In Progress", "Done"];
 
 const Board = () => {
   const [tickets, setTickets] = useState<TicketData[]>([]);
   const [error, setError] = useState(false);
   const [loginCheck, setLoginCheck] = useState(false);
+  const navigate = useNavigate();
 
   const checkLogin = () => {
-    if(auth.loggedIn()) {
+    if (auth.loggedIn()) {
       setLoginCheck(true);
     }
   };
 
-  // if (!auth.loggedIn()) {
-  //   auth.logout();
-  // }
-  
   const fetchTickets = async () => {
     try {
       const data = await retrieveTickets();
       setTickets(data);
     } catch (err) {
-      console.error('Failed to retrieve tickets:', err);
+      console.error("Failed to retrieve tickets:", err);
       setError(true);
     }
   };
 
-  const deleteIndvTicket = async (ticketId: number) : Promise<ApiMessage> => {
-    if (!auth.loggedIn()) {
-      auth.logout();
+  const deleteIndvTicket = async (ticketId: number): Promise<ApiMessage> => {
+    // make sure user is still logged in (i.e. token is still valid)
+    if (auth.loggedIn()) {
+      try {
+        const data = await deleteTicket(ticketId);
+        fetchTickets();
+        return data;
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    } else {
+      navigate("/");
+      return Promise.reject("User is not logged in");
     }
-    try {
-      const data = await deleteTicket(ticketId);
-      fetchTickets();
-      return data;
-    } catch (err) {
-      return Promise.reject(err);
-    }
-  }
+  };
 
   useLayoutEffect(() => {
     checkLogin();
   }, []);
 
   useEffect(() => {
-    if(loginCheck) {
+    if (loginCheck) {
       fetchTickets();
     }
   }, [loginCheck]);
@@ -64,31 +65,29 @@ const Board = () => {
 
   return (
     <>
-    {
-      !loginCheck ? (
-        <div className='login-notice'>
-          <h1>
-            Login to create & view tickets
-          </h1>
-        </div>  
+      {!loginCheck ? (
+        <div className="login-notice">
+          <h1>Login to create & view tickets</h1>
+        </div>
       ) : (
-          <div className='board'>
-            <div className='board-display'>
-              {boardStates.map((status) => {
-                const filteredTickets = tickets.filter(ticket => ticket.status === status);
-                return (
-                  <Swimlane 
-                    title={status} 
-                    key={status} 
-                    tickets={filteredTickets} 
-                    deleteTicket={deleteIndvTicket}
-                  />
-                );
-              })}
-            </div>
+        <div className="board">
+          <div className="board-display">
+            {boardStates.map((status) => {
+              const filteredTickets = tickets.filter(
+                (ticket) => ticket.status === status
+              );
+              return (
+                <Swimlane
+                  title={status}
+                  key={status}
+                  tickets={filteredTickets}
+                  deleteTicket={deleteIndvTicket}
+                />
+              );
+            })}
           </div>
-        )
-    }
+        </div>
+      )}
     </>
   );
 };
