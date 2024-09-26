@@ -1,11 +1,12 @@
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { retrieveTickets, deleteTicket } from "../api/ticketAPI";
 import ErrorPage from "./ErrorPage";
 import Swimlane from "../components/Swimlane";
 import { TicketData } from "../interfaces/TicketData";
 import { ApiMessage } from "../interfaces/ApiMessage";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import LoginProps from "../interfaces/LoginProps";
 
 import auth from "../utils/auth";
 
@@ -14,15 +15,8 @@ const boardStates = ["Todo", "In Progress", "Done"];
 const Board = () => {
   const [tickets, setTickets] = useState<TicketData[]>([]);
   const [error, setError] = useState(false);
-  const [loginCheck, setLoginCheck] = useState(false);
   const navigate = useNavigate();
-
-  const checkLogin = () => {
-    if (auth.loggedIn()) {
-      setLoginCheck(true);
-    }
-  };
-
+  const {loggedIn, setLoggedIn}: LoginProps = useOutletContext();
   const fetchTickets = async () => {
     try {
       const data = await retrieveTickets();
@@ -44,20 +38,19 @@ const Board = () => {
         return Promise.reject(err);
       }
     } else {
+      setLoggedIn(false);
       navigate("/login");
       return Promise.reject("User is not logged in");
     }
   };
 
-  useLayoutEffect(() => {
-    checkLogin();
-  }, []);
-
   useEffect(() => {
-    if (loginCheck) {
+    if (auth.loggedIn()) {
       fetchTickets();
+    } else {
+      setLoggedIn(false);
     }
-  }, [loginCheck]);
+  }, []);
 
   if (error) {
     return <ErrorPage />;
@@ -65,7 +58,7 @@ const Board = () => {
 
   return (
     <>
-      {!loginCheck ? (
+      {!loggedIn ? (
         <div className="login-notice">
           <h1>Login to create & view tickets</h1>
         </div>

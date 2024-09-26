@@ -2,6 +2,8 @@ import { useState, FormEvent, ChangeEvent } from "react";
 
 import auth from '../utils/auth';
 import { login } from "../api/authAPI";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import LoginProps from "../interfaces/LoginProps";
 
 const Login = () => {
   const [loginData, setLoginData] = useState({
@@ -9,6 +11,8 @@ const Login = () => {
     password: ''
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const {setLoggedIn}: LoginProps = useOutletContext();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -23,9 +27,11 @@ const Login = () => {
     try {
       const data = await login(loginData);
       auth.login(data.token);
+      setLoggedIn(true);
+      navigate('/');
     } catch (err) {
       setErrorMessage('Credentials are incorrect.');
-      // console.error('Failed to login', err);
+      console.error('Failed to login', err);
     }
   };
 

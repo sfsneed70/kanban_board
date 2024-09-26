@@ -1,14 +1,16 @@
 import { useState, useEffect, FormEvent, ChangeEvent } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useOutletContext } from "react-router-dom";
 import { retrieveTicket, updateTicket } from "../api/ticketAPI";
 import { TicketData } from "../interfaces/TicketData";
 import auth from "../utils/auth";
+import LoginProps from "../interfaces/LoginProps";
 
 const EditTicket = () => {
   const [ticket, setTicket] = useState<TicketData | undefined>();
 
   const navigate = useNavigate();
   const { state } = useLocation();
+  const {setLoggedIn}: LoginProps = useOutletContext();
 
   const fetchTicket = async (ticketId: TicketData) => {
     try {
@@ -24,6 +26,7 @@ const EditTicket = () => {
     if (auth.loggedIn()) {
       fetchTicket(state);
     } else {
+      setLoggedIn(false);
       navigate("/login");
     }
   }, []);
@@ -40,6 +43,7 @@ const EditTicket = () => {
         console.error("Ticket data is undefined.");
       }
     } else {
+      setLoggedIn(false);
       navigate("/login");
     }
   };

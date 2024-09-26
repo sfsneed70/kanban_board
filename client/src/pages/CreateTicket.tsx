@@ -1,10 +1,11 @@
 import { useState, useEffect, FormEvent, ChangeEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { createTicket } from "../api/ticketAPI";
 import { TicketData } from "../interfaces/TicketData";
 import { UserData } from "../interfaces/UserData";
 import { retrieveUsers } from "../api/userAPI";
 import auth from "../utils/auth";
+import LoginProps from "../interfaces/LoginProps";
 
 const CreateTicket = () => {
   const [newTicket, setNewTicket] = useState<TicketData | undefined>({
@@ -17,6 +18,7 @@ const CreateTicket = () => {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const {setLoggedIn}: LoginProps = useOutletContext();
 
   const [users, setUsers] = useState<UserData[] | undefined>([]);
 
@@ -34,6 +36,7 @@ const CreateTicket = () => {
     if (auth.loggedIn()) {
       getAllUsers();
     } else {
+      setLoggedIn(false);
       navigate("/login");
     }
   }, []);
@@ -52,6 +55,7 @@ const CreateTicket = () => {
         }
       }
     } else {
+      setLoggedIn(false);
       navigate("/login");
     }
   };
