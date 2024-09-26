@@ -5,8 +5,8 @@ import { useState } from "react";
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const handleSetLoggedIn = (check: boolean) => {
-    setLoggedIn(check);
+  const handleSetLoggedIn = (value: boolean) => {
+    setLoggedIn(value);
   };
 
   return (
