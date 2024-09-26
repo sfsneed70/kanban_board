@@ -24,7 +24,7 @@ const EditTicket = () => {
     if (auth.loggedIn()) {
       fetchTicket(state);
     } else {
-      navigate("/");
+      navigate("/login");
     }
   }, []);
 
@@ -40,7 +40,7 @@ const EditTicket = () => {
         console.error("Ticket data is undefined.");
       }
     } else {
-      navigate("/");
+      navigate("/login");
     }
   };
 

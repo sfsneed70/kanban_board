@@ -34,7 +34,7 @@ const CreateTicket = () => {
     if (auth.loggedIn()) {
       getAllUsers();
     } else {
-      navigate("/");
+      navigate("/login");
     }
   }, []);
 
@@ -52,7 +52,7 @@ const CreateTicket = () => {
         }
       }
     } else {
-      navigate("/");
+      navigate("/login");
     }
   };
 

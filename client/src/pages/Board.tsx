@@ -44,7 +44,7 @@ const Board = () => {
         return Promise.reject(err);
       }
     } else {
-      navigate("/");
+      navigate("/login");
       return Promise.reject("User is not logged in");
     }
   };
