@@ -17,16 +17,18 @@ const Navbar = (props: LoginProps) => {
       <ul>
         {!props.loggedIn ? (
           <li className="nav-item">
-            <button type="button">
-              <Link to="/login">Login</Link>
-            </button>
+            <Link to="/login">
+              <button type="button">Login</button>
+            </Link>
           </li>
         ) : (
           <>
             <li className="nav-item">
-              <button type="button" id="create-ticket-link">
-                <Link to="/create">New Ticket</Link>
-              </button>
+              <Link to="/create">
+                <button type="button" id="create-ticket-link">
+                  New Ticket
+                </button>
+              </Link>
             </li>
             <li className="nav-item">
               <button

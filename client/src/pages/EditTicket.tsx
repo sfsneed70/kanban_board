@@ -26,6 +26,7 @@ const EditTicket = () => {
     if (auth.loggedIn()) {
       fetchTicket(state);
     } else {
+      console.log("User is not logged in");
       setLoggedIn(false);
       navigate("/login");
     }
