@@ -7,10 +7,10 @@ import LoginProps from "../interfaces/LoginProps";
 
 const EditTicket = () => {
   const [ticket, setTicket] = useState<TicketData | undefined>();
-
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { state } = useLocation();
-  const {setLoggedIn}: LoginProps = useOutletContext();
+  const { setLoggedIn }: LoginProps = useOutletContext();
 
   const fetchTicket = async (ticketId: TicketData) => {
     try {
@@ -26,7 +26,6 @@ const EditTicket = () => {
     if (auth.loggedIn()) {
       fetchTicket(state);
     } else {
-      console.log("User is not logged in");
       setLoggedIn(false);
       navigate("/login");
     }
@@ -38,8 +37,13 @@ const EditTicket = () => {
     // make sure user is still logged in (i.e. token is still valid)
     if (auth.loggedIn()) {
       if (ticket && ticket.id !== null) {
-        await updateTicket(ticket.id, ticket);
-        navigate("/");
+        try {
+          await updateTicket(ticket.id, ticket);
+          navigate("/");
+        } catch (err) {
+          setErrorMessage("Name and Description are required.");
+          // console.error('Failed to update ticket:', err);
+        }
       } else {
         console.error("Ticket data is undefined.");
       }
@@ -92,6 +96,7 @@ const EditTicket = () => {
               value={ticket.description || ""}
               onChange={handleTextAreaChange}
             />
+            <p className="error">{errorMessage}</p>
             <button type="submit">Submit Form</button>
           </form>
         ) : (
