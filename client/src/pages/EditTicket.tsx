@@ -100,7 +100,8 @@ const EditTicket = () => {
             <button type="submit">Submit Form</button>
           </form>
         ) : (
-          <div className="error">Issues fetching ticket</div>
+          // <div className="error">Issues fetching ticket</div>
+          <div></div>
         )}
       </div>
     </>
