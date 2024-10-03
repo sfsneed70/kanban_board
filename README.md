@@ -25,7 +25,7 @@ Clone the repository from github. Install the dependent packages using: npm inst
 
 ## Usage
 
-Run the application using: npm run dev<br>
+Run the application using: npm run start<br>
 
 ## Contributing
 
